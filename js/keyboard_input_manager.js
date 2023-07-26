@@ -54,6 +54,9 @@ KeyboardInputManager.prototype.listen = function () {
   var retry = document.getElementsByClassName("retry-button")[0];
   retry.addEventListener("click", this.restart.bind(this));
 
+  var regresa = document.getElementsByClassName("regresa-button")[0];
+  regresa.addEventListener("click", this.regresa.bind(this));
+
   var hintButton = document.getElementById('hint-button');
   hintButton.addEventListener('click', function(e) {
     e.preventDefault();
@@ -90,4 +93,9 @@ KeyboardInputManager.prototype.listen = function () {
 KeyboardInputManager.prototype.restart = function (event) {
   event.preventDefault();
   this.emit("restart");
+};
+
+KeyboardInputManager.prototype.regresa = function (event) {
+  event.preventDefault();
+  this.emit("regresa");
 };

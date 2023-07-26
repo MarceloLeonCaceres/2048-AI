@@ -28,11 +28,11 @@
   font-size: 36px;
 }
 
-#run-button-container {
+#run-button-container, #regresa-button-container {
   float: right;
 }
 
-#hint-button-container, #feedback-container {
+#hint-button-container, #feedback-container, #reinicia-button-container {
   float: left;
 }
 

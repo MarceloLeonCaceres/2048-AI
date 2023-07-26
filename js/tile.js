@@ -1,24 +1,34 @@
-function Tile(position, value) {
-  this.x                = position.x;
-  this.y                = position.y;
-  this.value            = value || 2;
+class Tile {
 
-  this.previousPosition = null;
-  this.mergedFrom       = null; // Tracks tiles that merged together
-}
+  constructor(position, value){
+    this.x = position.x;
+    this.y = position.y;
+    this.value = value || 2;
 
-Tile.prototype.savePosition = function () {
-  this.previousPosition = { x: this.x, y: this.y };
-};
+    this.previousPosition = null;
+    this.mergedFrom = null;
+  }
 
-Tile.prototype.updatePosition = function (position) {
-  this.x = position.x;
-  this.y = position.y;
-};
+  savePosition(){
+    this.previousPosition = { 
+      x: this.x, 
+      y: this.y};
+  }
 
-Tile.prototype.clone = function() {
-  newTile = new Tile({ x: this.x, y: this.y }, this.value);
-  //newTile.previousPosition = { x: this.previousPosition.x, y: this.previousPosition.y };
-  //newTile.mergedFrom = { x: this.previousPosition.x, y: this.previousPosition.y };
-  return newTile;
+  updatePosition(position){
+    this.x = position.x;
+    this.y = position.y;
+  }
+
+  clone(){
+    let newTile = new Tile({ 
+      x: this.x, 
+      y: this.y}, this.value);
+    return newTile;
+  }
+
+  print(){
+    console.log('fila: ' + this.y + ' | col: ' + this.x + ' | value: ' + this.value);
+  }
+
 }

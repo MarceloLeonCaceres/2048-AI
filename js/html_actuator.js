@@ -33,6 +33,12 @@ HTMLActuator.prototype.restart = function () {
   this.clearMessage();
 };
 
+
+HTMLActuator.prototype.regresa = function () {
+  if (ga) ga("send", "event", "game", "regresa");
+  this.clearMessage();
+};
+
 HTMLActuator.prototype.clearContainer = function (container) {
   while (container.firstChild) {
     container.removeChild(container.firstChild);

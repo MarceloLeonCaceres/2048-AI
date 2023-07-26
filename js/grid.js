@@ -1,12 +1,21 @@
-function Grid(size) {
-  this.size = size;
-  this.startTiles   = 2;
+class Grid {
+  constructor(size){
+    this.size = size;
+    this.startTiles = 2;
 
-  this.cells = [];
+    this.cells = [];
 
-  this.build();
-  this.playerTurn = true;
+    this.build();
+    this.playerTurn = true;
+    this.contador = 0;
+  }
 }
+
+// Marce
+let log = console.log;
+let posActual = [];
+let positionCloned = {};
+// Marce
 
 // pre-allocate these objects (for speed)
 Grid.prototype.indexes = [];
@@ -117,6 +126,49 @@ Grid.prototype.addStartTiles = function () {
   }
 };
 
+Grid.prototype.PrintPosActual = function(){
+  log('Desde PrintPosActual:')
+  debugger;
+  if(posActual == null){
+    log('posActual = null');
+    log('salgo de PrintPosActual');
+    return;
+  }
+  for(const celda of posActual){
+    log('( ' + (celda.y+1) + ', ' + (celda.x+1) + ') val: ' + celda.value);       
+  }
+}
+
+
+Grid.prototype.setPosActual = function(){
+  
+  if(posActual == null){
+    posActual = [];
+  }
+  for(let i = 0; i < 4; i++){
+    for(let j = 0; j < 4; j++){
+      if(this.cells[j][i] != null){
+        if(this.cells[j][i].value != undefined){
+          // debugger;
+          let tile = new Tile({x: j, y:i}, this.cells[j][i].value);
+          posActual.push(tile);
+        }
+      }
+    }
+  }
+}
+
+// Marce
+Grid.prototype.setCustomPosition = function(){
+  console.clear();
+  log('Estoy en setCustomPosition');  
+  this.PrintPosActual();
+  this.setPosActual();
+  this.PrintPosActual();
+  log('Salí de setCustomPosition');
+}
+// Marce
+
 // Adds a tile in a random position
 Grid.prototype.addRandomTile = function () {
   if (this.cellsAvailable()) {
@@ -128,6 +180,7 @@ Grid.prototype.addRandomTile = function () {
   }
 };
 
+
 // Save all tile positions and remove merger info
 Grid.prototype.prepareTiles = function () {
   this.eachCell(function (x, y, tile) {
@@ -138,11 +191,31 @@ Grid.prototype.prepareTiles = function () {
   });
 };
 
+
+Grid.prototype.printGrid = function(){
+  // console.clear();
+  log('printGrid() çontador: ' + this.contador + '\n\n');
+  let cells = this.cells;
+  for(let i = 0; i < 4; i++){
+    let filaAImprimir = i + ': | ';
+    for(let j = 0; j < 4; j++){
+      if(cells[j][i] != null && cells[j][i] != undefined){        
+        filaAImprimir += cells[j][i].value;      
+      }     else {
+        filaAImprimir += '  ';      
+      }
+      filaAImprimir += " | ";
+    }
+    log(filaAImprimir);
+  }
+}
+
 // Move a tile and its representation
 Grid.prototype.moveTile = function (tile, cell) {
   this.cells[tile.x][tile.y] = null;
   this.cells[cell.x][cell.y] = tile;
   tile.updatePosition(cell);
+  
 };
 
 
@@ -166,6 +239,17 @@ Grid.prototype.move = function (direction) {
   var self = this;
 
   var cell, tile;
+
+  // Marce
+  log('desde move: ');  
+  log('Antes de prepareTiles:')    
+  this.printGrid();
+  this.setPosActual();
+  this.PrintPosActual();
+  posActual = [];
+  
+  this.PrintPosActual();
+  // Marce
 
   var vector     = this.getVector(direction);
   var traversals = this.buildTraversals(vector);
@@ -235,7 +319,13 @@ Grid.prototype.move = function (direction) {
 };
 
 Grid.prototype.computerMove = function() {
+  log('Antes de agregar el random tile, en computerMove');
+  this.printGrid();
   this.addRandomTile();
+  // Modificado Mar$e
+  this.contador++;
+  this.printGrid();
+  // Modificado Mar$e
   this.playerTurn = true;
 }
 

@@ -8,6 +8,10 @@ function GameManager(size, InputManager, Actuator) {
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
 
+  // Marce
+  this.inputManager.on("regresa", this.regresa.bind(this));
+  // Marce
+
   this.inputManager.on('think', function() {
     var best = this.ai.getBest();
     this.actuator.showHint(best.move);
@@ -36,10 +40,33 @@ GameManager.prototype.restart = function () {
   this.setup();
 };
 
+// Regresa el juego 1 movimiento
+GameManager.prototype.regresa = function() {
+  this.actuator.regresa();
+  this.running = false;
+  this.actuator.setRunButton('Auto-run');
+  this.setupRegreso();
+}
+
 // Set up the game
 GameManager.prototype.setup = function () {
   this.grid         = new Grid(this.size);
   this.grid.addStartTiles();
+
+  this.ai           = new AI(this.grid);
+
+  this.score        = 0;
+  this.over         = false;
+  this.won          = false;
+
+  // Update the actuator
+  this.actuate();
+};
+
+// Regresa el juego 1 movimiento
+GameManager.prototype.setupRegreso = function () {
+  // this.grid         = new Grid(this.size);
+  this.grid.setCustomPosition();
 
   this.ai           = new AI(this.grid);
 
